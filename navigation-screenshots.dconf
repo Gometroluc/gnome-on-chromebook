@@ -1,0 +1,8 @@
+[/]
+screen-brightness-down=['F6']
+screen-brightness-up=['F7']
+screenshot=['<Super>s']
+screenshot-window=['<Super><Ctrl><Alt>s']
+show-screenshot-ui=['<Super><Ctrl>s']
+toggle-overview=['F5']
+toggle-quick-settings=['<Super><Ctrl>a']

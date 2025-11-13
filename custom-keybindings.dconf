@@ -1,0 +1,4 @@
+[custom0]
+binding='<Ctrl><Super>Escape'
+command='gnome-system-monitor'
+name='System manager'

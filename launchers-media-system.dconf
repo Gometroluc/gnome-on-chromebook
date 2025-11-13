@@ -1,0 +1,19 @@
+[/]
+control-center=['<Alt><Super>i']
+control-center-static=['']
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
+home=['<Super>e']
+keyboard-brightness-down=['<alt>f6']
+keyboard-brightness-up=['<alt>F7']
+logout=['<Control><Alt>l']
+screensaver=['XF86Tools']
+shutdown=['<Ctrl><Alt>p']
+suspend=['<Shift><Ctrl><Alt>p']
+volume-down=['F9']
+volume-mute=['F8']
+volume-up=['F10']
+
+[custom-keybindings/custom0]
+binding='<Ctrl><Super>Escape'
+command='gnome-system-monitor'
+name='System manager'

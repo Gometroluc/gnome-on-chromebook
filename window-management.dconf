@@ -1,0 +1,7 @@
+[/]
+begin-move=['<Super>g']
+cycle-group=@as []
+cycle-group-backward=@as []
+switch-input-source=['<Control>space']
+switch-input-source-backward=['<Shift><Control>space']
+toggle-fullscreen=['F4']
