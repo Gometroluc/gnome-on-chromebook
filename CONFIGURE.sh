@@ -53,10 +53,14 @@ if [ "$DISTRO" = "fedora" ]; then
 	KEYDINSTALL="sudo dnf -y copr enable alternateved/keyd && sudo dnf install -y keyd"
 fi
 if [ "$DISTRO" = "debian/ubuntu" ]; then
-	MENUCHECK="dpkg-query -s gnome-menus gir1.2-gnomemenu-3.0"
-	KEYDCHECK="dpkg-query -s keyd"
-	MENUINSTALL="sudo apt install -y gnome-menus gir1.2-gnomemenu-3.0"
-	KEYDINSTALL="sudo apt install -y keyd"
+    MENUCHECK="dpkg-query -W -f='\${Status}' gnome-menus 2>/dev/null | grep -q 'install ok installed'"
+    if apt-cache show gir1.2-gmenu-3.0 &>/dev/null; then
+        MENUINSTALL="sudo apt-get update && sudo apt-get install -y gnome-menus gir1.2-gmenu-3.0"
+    else
+        MENUINSTALL="sudo apt-get update && sudo apt-get install -y gnome-menus"
+    fi
+    KEYDCHECK="dpkg-query -W -f='\${Status}' keyd 2>/dev/null | grep -q 'install ok installed'"
+    KEYDINSTALL="sudo apt-get update && sudo apt-get install -y keyd"
 fi
 
 IS_BLUR_INSTALLED=$(gnome-extensions list | grep -q blur-my-shell@aunetx)
@@ -80,8 +84,8 @@ if [[ $BLUR_STATUS -ne 0 ]]; then
 
 for file in "${FILES[@]}"; do
     if [ ! -f "$SCRIPT_LOCATION/$file" ]; then
-        status="MISSINGFILE"
-        break
+        echo -e "\e[31mERROR: Missing required file: $file\e[0m" >&2
+        exit 1
     fi
 done
 
@@ -100,7 +104,7 @@ done
     dconf load '/org/gnome/shell/extensions/blur-my-shell/' < "$SCRIPT_LOCATION/blur-my-shell.dconf"
     fi
         if ! bash -c "$MENUCHECK" &>/dev/null; then
-        
+
             $MENUINSTALL
     	fi
     	if [ $? -ne 0 ]; then
@@ -111,7 +115,7 @@ done
         if ! bash -c "$KEYDCHECK" &>/dev/null; then
             $KEYDINSTALL
         fi
-        
+
         if [ $? -ne 0 ]; then
             echo -e "\e[31mAn error occurred. keyd was not installed.\e[0m"
             	status="error"
@@ -138,7 +142,7 @@ fi
         echo -e "\e[32mkeyd configured.\e[0m"
 fi
 fi
-        
+
 if [ "$status" = "MISSINGFILE" ]; then
     echo -e "\e[31mERROR: Missing required file(s). Settings may not be fully applied.\e[0m" >&2
 elif [ "$status" = "error" ]; then
